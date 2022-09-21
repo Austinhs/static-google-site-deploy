@@ -26,7 +26,7 @@ jobs:
 
       - name: Build
         id: build
-        run: yarn build
+        run: yarn install && yarn build
 
       # GCP Auth
       - name: Google Auth
