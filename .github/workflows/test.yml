@@ -8,7 +8,7 @@ env:
 
 jobs:
   test:
-    permissions: 'read-all|write-all'
+    permissions: read|write
     runs-on: ubuntu-latest
     steps:
       # Get source
