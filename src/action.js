@@ -22,7 +22,7 @@ async function run() {
     }
 
     // Sync files with bucket
-    await exec(`gcloud auth activate-service-account --key-file="${process.env.GOOGLE_GHA_CREDS_PATH}" --project "${process.env.GCP_PROJECT}"`)
+    await exec(`gcloud auth activate-service-account --key-file="${process.env.GOOGLE_APPLICATION_CREDENTIALS}" --project "${process.env.GCP_PROJECT}"`)
     await exec(`gsutil rsync -R ${BUILD_PATH} gs://${BUCKET_NAME}`);
     await exec(`gsutil web set -m "${HOME_PAGE}" -e "${ERROR_PAGE}" gs://${BUCKET_NAME}`);
 
