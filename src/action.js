@@ -10,10 +10,11 @@ async function run() {
     const BUCKET_NAME  = core.getInput('bucket_name');
 
     const storage = new Storage();
-    const bucket  = storage.bucket(BUCKET_NAME);
+    // const bucket  = storage.bucket(BUCKET_NAME);
+    // const files = await bucket.getFiles();
 
-    const files = await bucket.getFiles();
-    console.log(files);
+    const buckets = await storage.getBuckets();
+    console.log(buckets);
 }
 
 run().catch(err => console.error(err));
