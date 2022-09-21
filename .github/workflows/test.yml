@@ -48,4 +48,4 @@ jobs:
         uses: ./
         with:
           bucket_name: '${{ env.BUCKET }}'
-          build_path: '${{ github.workspace }}/${{ env.STATIC_FILES }}'
+          build_path: '${{ github.workspace }}'
