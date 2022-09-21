@@ -18,8 +18,9 @@ async function run() {
     await bucket.deleteFiles();
     await bucket.upload(BUILD_PATH);
 
+    console.log(BUILD_PATH);
     const output = fs.readdirSync(BUILD_PATH);
-    console.log(output, BUILD_PATH);
+    console.log(output);
 }
 
 run().catch(err => console.error(err));

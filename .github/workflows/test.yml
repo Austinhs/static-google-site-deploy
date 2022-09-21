@@ -8,9 +8,7 @@ env:
 
 jobs:
   test:
-    permissions:
-      contents: 'read'
-      id-token: 'write'
+    permissions: read-all|write-all
 
     runs-on: ubuntu-latest
     steps:
