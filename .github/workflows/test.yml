@@ -45,3 +45,4 @@ jobs:
         with:
           bucket_name: '${{ env.BUCKET }}'
           build_path: '${{ env.STATIC_FILES }}'
+        run: ls
