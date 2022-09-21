@@ -38,10 +38,10 @@ jobs:
           workload_identity_provider: '${{ secrets.GCP_WIF_PROVIDER }}' # e.g. - projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider
           service_account: '${{ secrets.GCP_SERVICE_ACC }}' # e.g. - my-service-account@my-project.iam.gserviceaccount.com
 
-      # LS
-      - name: Where we at
-        id: where
-        run: ls
+      # Correct perms
+      - name: Change perms
+        id: perms
+        run: chmod 777 ${{ env.STATIC_FILES }}
 
       # Publish
       - name: Google Cloud Bucket Publish
