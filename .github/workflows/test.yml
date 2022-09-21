@@ -6,11 +6,9 @@ env:
   BUCKET: 'test-ga-deploy'
   STATIC_FILES: 'example_site'
 
-permissions: read-all|write-all
-
 jobs:
   test:
-
+    permissions: 'read-all|write-all'
     runs-on: ubuntu-latest
     steps:
       # Get source
