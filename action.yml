@@ -6,6 +6,9 @@ inputs:
   bucket_name:
     description: 'What storage bucket do you want to use?'
     required: true
+  build_path:
+    description: 'What folder do the static files output to or exist in?'
+    default: './'
 
 runs:
   using: 'node16'
