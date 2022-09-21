@@ -2,7 +2,6 @@ const core = require('@actions/core');
 const { Storage } = require('@google-cloud/storage');
 const fs = require('fs');
 const glob = require('glob');
-// const github = require('@actions/github');
 
 async function run() {
     if(process.env.GCLOUD_PROJECT === 'undefined') {
@@ -18,9 +17,15 @@ async function run() {
     // Delete all files in bucket
     await bucket.deleteFiles();
 
-    for(const file of glob.sync(`${BUILD_PATH}/*.html`)) {
-        console.log(file);
+    // Remove .html extension from all files
+    const html_files = [];
+    for(const file of glob.sync(`${BUILD_PATH}/**/*.html`)) {
+        const new_file = file.replace('.html', '');
+        fs.renameSync(file, new_file);
+        html_files.push(new_file);
     }
+
+    console.log(html_files);
 
     // await bucket.upload(BUILD_PATH);
 }
