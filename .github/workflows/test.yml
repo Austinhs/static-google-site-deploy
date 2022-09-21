@@ -1,0 +1,33 @@
+name: Test
+
+on: [push]
+
+env:
+  BUCKET: 'test-ga-deploy'
+  STATIC_FILES: './example_site'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      # Get source
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v3
+
+      # GCP Auth
+      - name: Google Auth
+        id: auth
+        uses: 'google-github-actions/auth@v0'
+        with:
+          token_format: 'access_token'
+          create_credentials_file: true
+          workload_identity_provider: '${{ secrets.GCP_WIF_PROVIDER }}' # e.g. - projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider
+          service_account: '${{ secrets.GCP_SERVICE_ACC }}' # e.g. - my-service-account@my-project.iam.gserviceaccount.com
+
+      # Publish
+      - name: Google Cloud Bucket Publish
+        id: publish
+        uses: ./
+        with:
+          bucket_name: '${{ env.BUCKET }}'

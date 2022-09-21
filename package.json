@@ -1,0 +1,26 @@
+{
+  "name": "static-google-site-deploy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "ncc build src/action.js -o dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Austinhs/static-google-site-deploy.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Austinhs/static-google-site-deploy/issues"
+  },
+  "homepage": "https://github.com/Austinhs/static-google-site-deploy#readme",
+  "dependencies": {
+    "@actions/core": "^1.9.1",
+    "@actions/github": "^5.0.3",
+    "@google-cloud/storage": "^6.5.1",
+    "@vercel/ncc": "^0.34.0"
+  }
+}

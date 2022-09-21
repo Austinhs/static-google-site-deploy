@@ -1,0 +1,12 @@
+name: 'Static Google Site Deployment'
+description: 'Deploy static website files to google clouds "bucket"'
+author: 'Austin Stanfield / DiversityETH'
+
+inputs:
+  bucket_name:
+    description: 'What storage bucket do you want to use?'
+    required: true
+
+runs:
+  using: 'node16'
+  main: 'dist/index.js'
