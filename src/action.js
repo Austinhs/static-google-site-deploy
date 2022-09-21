@@ -7,14 +7,15 @@ async function run() {
         throw new Error("Ensure that you use 'google-github-actions/auth@v0' before executing this action.");
     }
 
-    const BUCKET_NAME  = core.getInput('bucket_name');
+    const BUCKET_NAME = core.getInput('bucket_name');
+    const BUILD_PATH  = core.getInput('build_path');
 
     const storage = new Storage();
-    // const bucket  = storage.bucket(BUCKET_NAME);
-    // const files = await bucket.getFiles();
+    const bucket  = storage.bucket(BUCKET_NAME);
 
-    const buckets = await storage.getBuckets();
-    console.log(buckets);
+    // Delete all files in bucket
+    await bucket.deleteFiles();
+    await bucket.upload(BUILD_PATH);
 }
 
 run().catch(err => console.error(err));
