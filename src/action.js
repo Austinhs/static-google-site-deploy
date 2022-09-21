@@ -1,6 +1,7 @@
 const core = require('@actions/core');
 const { Storage } = require('@google-cloud/storage');
 const fs = require('fs');
+const glob = require('glob');
 // const github = require('@actions/github');
 
 async function run() {
@@ -16,11 +17,12 @@ async function run() {
 
     // Delete all files in bucket
     await bucket.deleteFiles();
-    // await bucket.upload(BUILD_PATH);
 
-    console.log(BUILD_PATH);
-    const output = fs.readdirSync(BUILD_PATH);
-    console.log(output);
+    for(const file of glob.sync(`${BUILD_PATH}/*.html`)) {
+        console.log(file);
+    }
+
+    // await bucket.upload(BUILD_PATH);
 }
 
-run().catch(err => console.error(err));
+run();
