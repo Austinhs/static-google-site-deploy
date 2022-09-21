@@ -1,7 +1,8 @@
-const core = require('@actions/core');
+const core        = require('@actions/core');
 const { Storage } = require('@google-cloud/storage');
-const fs = require('fs');
-const glob = require('glob');
+const fs          = require('fs');
+const glob        = require('glob');
+const chalk       = require('chalk');
 
 async function run() {
     if(process.env.GCLOUD_PROJECT === 'undefined') {
@@ -10,12 +11,11 @@ async function run() {
 
     const BUCKET_NAME = core.getInput('bucket_name');
     const BUILD_PATH  = core.getInput('build_path');
+    const HOME_PAGE   = core.getInput('home_page').replace('.html', '');
+    const ERROR_PAGE  = core.getInput('error_page').replace('.html', '');
 
     const storage = new Storage();
     const bucket  = storage.bucket(BUCKET_NAME);
-
-    // Delete all files in bucket
-    await bucket.deleteFiles();
 
     // Remove .html extension from all files
     const html_files = [];
@@ -25,9 +25,40 @@ async function run() {
         html_files.push(new_file);
     }
 
-    console.log(html_files);
+    // Sync files with bucket
+    await exec(`gsutil rsync -R ${BUILD_PATH} gs://${BUCKET_NAME}`);
+    await exec(`gsutil web set -m "${HOME_PAGE}" -e "${ERROR_PAGE}" gs://${BUCKET_NAME}`);
 
-    // await bucket.upload(BUILD_PATH);
+    // Change content type for html_files
+    for(const file_path of html_files) {
+        const file = bucket.file(file_path);
+        await file.setMetadata({ contentType: 'text/html' });
+    }
+}
+
+function exec(command) {
+    return new Promise((resolve, reject) => {
+        const process = require('child_process').exec(command);
+        const stderr = [];
+
+        process.stdout.on('data', (data) => {
+            console.log(chalk.green('stdout: ') + data.toString())
+        })
+
+        process.stderr.on('data', (data) => {
+            stderr.push(data.toString());
+            console.log(chalk.red('stderr: ') + data.toString())
+        })
+
+        process.on('exit', (code) => {
+            if(code === 0) {
+                resolve(code);
+            } else if(code != null) {
+                stderr.push(`Process exited with code ${code.toString()}`);
+                reject(stderr.join('\n'));
+            }
+        });
+    });
 }
 
 run();

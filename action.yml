@@ -8,7 +8,13 @@ inputs:
     required: true
   build_path:
     description: 'What folder do the static files output to or exist in?'
-    default: './'
+    default: 'out'
+  home_page:
+    description: 'What is the path to the file you want to use for the landing page?'
+    default: 'index.html'
+  error_page:
+    description: 'What is the path to the file you want to display an error page for?'
+    default: '404.html'
 
 runs:
   using: 'node16'
