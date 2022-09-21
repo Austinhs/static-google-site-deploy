@@ -2,7 +2,6 @@ const core        = require('@actions/core');
 const { Storage } = require('@google-cloud/storage');
 const fs          = require('fs');
 const glob        = require('glob');
-const chalk       = require('chalk');
 
 async function run() {
     if(process.env.GCLOUD_PROJECT === 'undefined') {
@@ -13,9 +12,6 @@ async function run() {
     const BUILD_PATH  = core.getInput('build_path');
     const HOME_PAGE   = core.getInput('home_page').replace('.html', '');
     const ERROR_PAGE  = core.getInput('error_page').replace('.html', '');
-
-    const storage = new Storage();
-    const bucket  = storage.bucket(BUCKET_NAME);
 
     // Remove .html extension from all files
     const html_files = [];
@@ -30,6 +26,8 @@ async function run() {
     await exec(`gsutil web set -m "${HOME_PAGE}" -e "${ERROR_PAGE}" gs://${BUCKET_NAME}`);
 
     // Change content type for html_files
+    const storage = new Storage();
+    const bucket  = storage.bucket(BUCKET_NAME);
     for(const file_path of html_files) {
         const file = bucket.file(file_path);
         await file.setMetadata({ contentType: 'text/html' });
@@ -42,12 +40,12 @@ function exec(command) {
         const stderr = [];
 
         process.stdout.on('data', (data) => {
-            console.log(chalk.green('stdout: ') + data.toString())
+            console.log(`stdout: ${data.toString()} `);
         })
 
         process.stderr.on('data', (data) => {
             stderr.push(data.toString());
-            console.log(chalk.red('stderr: ') + data.toString())
+            console.log(`stderr: ${data.toString()} `);
         })
 
         process.on('exit', (code) => {
