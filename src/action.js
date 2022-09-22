@@ -30,8 +30,7 @@ async function run() {
     const storage = new Storage();
     const bucket  = storage.bucket(BUCKET_NAME);
     for(const file_path of html_files) {
-        console.log(file_path);
-        const file = bucket.file(file_path);
+        const file = bucket.file(file_path.replace(`${BUILD_PATH}/`, ''));
         await file.setMetadata({ contentType: 'text/html' });
     }
 }
