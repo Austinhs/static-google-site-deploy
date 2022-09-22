@@ -22,7 +22,9 @@ async function run() {
     }
 
     // Sync files with bucket
-    await exec(`gsutil config`);
+    await exec(`gcloud auth login --cred-file=${process.env.GOOGLE_APPLICATION_CREDENTIALS}`);
+    await exec(`gcloud auth application-default login`);
+    // await exec(`gsutil config`);
     await exec(`gsutil rsync -R ${BUILD_PATH} gs://${BUCKET_NAME}`);
     await exec(`gsutil web set -m "${HOME_PAGE}" -e "${ERROR_PAGE}" gs://${BUCKET_NAME}`);
 
