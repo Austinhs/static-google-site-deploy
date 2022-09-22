@@ -85,7 +85,7 @@ jobs:
       # Publish
       - name: Google Cloud Bucket Publish
         id: publish
-        uses: 'Austinhs/static-google-site-deploy@v0'
+        uses: 'Austinhs/static-google-site-deploy@v1'
         with:
           bucket_name: '${{ env.BUCKET }}'
           build_path: '${{ github.workspace }}/${{ env.STATIC_FILES }}'
