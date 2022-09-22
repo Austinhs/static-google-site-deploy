@@ -1,8 +1,8 @@
 name: 'Static Google Site Deployment'
 description: 'Deploy static website files to google clouds "bucket"'
 author: 'Austin Stanfield / DiversityETH'
-icon: 'upload-cloud'
-color: 'blue'
+icon: upload-cloud
+color: blue
 
 inputs:
   bucket_name:
