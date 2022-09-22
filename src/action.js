@@ -22,7 +22,7 @@ async function run() {
     }
 
     // Sync files with bucket
-    await exec(`gsutil config -a`);
+    // await exec(`gsutil config`);
     await exec(`gsutil rsync -R ${BUILD_PATH} gs://${BUCKET_NAME}`);
     await exec(`gsutil web set -m "${HOME_PAGE}" -e "${ERROR_PAGE}" gs://${BUCKET_NAME}`);
 

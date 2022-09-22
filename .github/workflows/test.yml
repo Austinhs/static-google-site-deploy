@@ -29,6 +29,10 @@ jobs:
           workload_identity_provider: '${{ secrets.GCP_WIF_PROVIDER }}' # e.g. - projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider
           service_account: '${{ secrets.GCP_SERVICE_ACC }}' # e.g. - my-service-account@my-project.iam.gserviceaccount.com
 
+      # GCP SDK
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v0'
+
       # Install node
       - name: Use Node.js 16.13
         uses: actions/setup-node@v3
