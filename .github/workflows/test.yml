@@ -32,6 +32,7 @@ jobs:
       # GCP SDK
       - name: 'Set up Cloud SDK'
         uses: 'google-github-actions/setup-gcloud@v0'
+        install_components: 'gsutil'
 
       # Install node
       - name: Use Node.js 16.13

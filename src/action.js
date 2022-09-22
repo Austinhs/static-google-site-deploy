@@ -22,7 +22,6 @@ async function run() {
     }
 
     // Sync files with bucket
-    // await exec(`gsutil config`);
     await exec(`gsutil rsync -R ${BUILD_PATH} gs://${BUCKET_NAME}`);
     await exec(`gsutil web set -m "${HOME_PAGE}" -e "${ERROR_PAGE}" gs://${BUCKET_NAME}`);
 
@@ -30,8 +29,11 @@ async function run() {
     const storage = new Storage();
     const bucket  = storage.bucket(BUCKET_NAME);
     for(const file_path of html_files) {
-        const file = bucket.file(file_path.replace(`${BUILD_PATH}/`, ''));
+        const GCP_FILE_PATH = file_path.replace(`${BUILD_PATH}/`, '');
+        const file = bucket.file(GCP_FILE_PATH);
         await file.setMetadata({ contentType: 'text/html' });
+
+        console.log(`Set content type for ${GCP_FILE_PATH}`);
     }
 }
 
